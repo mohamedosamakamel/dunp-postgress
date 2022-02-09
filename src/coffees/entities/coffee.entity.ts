@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude, Transform } from 'class-transformer';
+import { Flavor } from 'src/flavors/entities/flavor.entity';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Coffee {
@@ -6,6 +8,8 @@ export class Coffee {
   id?: number;
 
   @Column()
+  // @Exclude()
+  @Transform((value) => 'remah')
   name: string;
 
   // array of values
@@ -23,4 +27,7 @@ export class Coffee {
 
   @Column('jsonb', { nullable: true })
   questions: object[];
+
+  @ManyToMany((type) => Flavor, (flavor) => flavor.coffees)
+  flavors: Flavor[];
 }

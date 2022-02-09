@@ -1,44 +1,41 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CoffeeRepository } from './coffee.repository';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Coffee } from './entities/coffee.entity';
 
 @Injectable()
 export class CoffeesService {
-  constructor(
-    @InjectRepository(Coffee)
-    private readonly coffeeRepository: Repository<Coffee>,
-  ) {}
+  constructor(private readonly _coffeeRepository: CoffeeRepository) {}
 
   async create(createCoffeeDto: CreateCoffeeDto) {
-    const coffee = await this.coffeeRepository.create(createCoffeeDto);
-    await this.coffeeRepository.save(coffee);
+    const coffee = await this._coffeeRepository.createBase(createCoffeeDto);
     return coffee;
   }
 
   findAll() {
-    return this.coffeeRepository.query(
-      'SELECT * from coffee where $1 = ANY(paragraphs)',
-      ['1'],
-    );
-    // return this.coffeeRepository.find();
+    // return this._coffeeRepository.query(
+    //   'SELECT * from coffee where $1 = ANY(paragraphs)',
+    //   ['1'],
+    // );
+    return this._coffeeRepository.findOneBase();
   }
 
   async findOne(id: number) {
-    const coffee = await this.coffeeRepository.findOne(id);
+    const coffee = await this._coffeeRepository.findOne({ id });
     if (!coffee) throw new NotFoundException(`coffee of id ${id} not found`);
     return coffee;
   }
 
   async update(id: number, updateCoffeeDto: UpdateCoffeeDto) {
-    await this.coffeeRepository.update(id, updateCoffeeDto);
+    await this._coffeeRepository.update(id, updateCoffeeDto);
     return;
   }
 
   async remove(id: number) {
-    const deleteResponse = await this.coffeeRepository.delete(id);
+    const deleteResponse = await this._coffeeRepository.delete(id);
     if (!deleteResponse.affected) throw new NotFoundException('post not found');
   }
 }

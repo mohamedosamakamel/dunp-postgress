@@ -1,8 +1,15 @@
 import { Module } from '@nestjs/common';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
+import { ExcludeNullInterceptor } from './utils/excludeNull.interceptor';
+import { FlavorsModule } from './flavors/flavors.module';
+import { AllExceptionsFilter } from './utils/exception.filter';
+import { CoffeeRepository } from './coffees/coffee.repository';
+import { Coffee } from './coffees/entities/coffee.entity';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -17,8 +24,20 @@ import { CoffeesModule } from './coffees/coffees.module';
       synchronize: true,
     }),
     CoffeesModule,
+    FlavorsModule,
+    PostsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ExcludeNullInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
 })
 export class AppModule {}
