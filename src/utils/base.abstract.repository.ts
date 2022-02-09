@@ -10,7 +10,7 @@ import {
   UpdateResult,
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { Coffee } from './entities/coffee.entity';
+import { Coffee } from '../coffees/entities/coffee.entity';
 
 export abstract class BaseAbstractRepository<
   Entity,

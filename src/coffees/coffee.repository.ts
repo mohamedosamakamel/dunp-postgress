@@ -1,4 +1,4 @@
-import { BaseAbstractRepository } from 'src/coffees/base.abstract.repository';
+import { BaseAbstractRepository } from 'src/utils/base.abstract.repository';
 import { EntityRepository, FindConditions, FindOneOptions } from 'typeorm';
 import { Coffee } from './entities/coffee.entity';
 
