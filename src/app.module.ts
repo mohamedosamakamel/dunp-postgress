@@ -21,7 +21,7 @@ import { PostsModule } from './posts/posts.module';
       password: 'Wutx70Y3KstyqCB9Cm1HKg-olDGLXD_K',
       database: 'uwmwpfvc',
       autoLoadEntities: true,
-      synchronize: true,
+      // synchronize: true,
     }),
     CoffeesModule,
     FlavorsModule,

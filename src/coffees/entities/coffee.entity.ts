@@ -28,6 +28,9 @@ export class Coffee {
   @Column('jsonb', { nullable: true })
   questions: object[];
 
+  @Column('jsonb', { nullable: true })
+  test: object[]; // no creation if syncronize:false
+
   @ManyToMany((type) => Flavor, (flavor) => flavor.coffees)
   flavors: Flavor[];
 }

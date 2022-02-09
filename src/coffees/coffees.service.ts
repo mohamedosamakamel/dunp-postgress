@@ -20,7 +20,15 @@ export class CoffeesService {
     //   'SELECT * from coffee where $1 = ANY(paragraphs)',
     //   ['1'],
     // );
-    return this._coffeeRepository.findOneBase();
+    // return this._coffeeRepository.findOneBase();
+    // return this._coffeeRepository.find();
+    return this._coffeeRepository.query(
+      `SELECT * FROM coffee,jsonb_to_recordset(coffee.questions) as items(a int)
+    left join post on post.id = a
+    where coffee.id = $1 and a = $2
+`,
+      [20, 1],
+    );
   }
 
   async findOne(id: number) {
