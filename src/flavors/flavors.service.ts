@@ -24,8 +24,8 @@ export class FlavorsService {
   }
 
   findAll() {
-    return this.coffeeRepository.findOneChild();
-    // return this.flavorRepository.find({ relations: ['coffees'] });
+    return this.flavorRepository.find({ relations: ['coffees'] });
+    // return this.coffeeRepository.findOneChild();
   }
 
   findOne(id: number) {

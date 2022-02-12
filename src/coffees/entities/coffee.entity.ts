@@ -9,7 +9,7 @@ export class Coffee {
 
   @Column()
   // @Exclude()
-  @Transform((value) => 'remah')
+  @Transform((value) => 'remah1')
   name: string;
 
   // array of values
