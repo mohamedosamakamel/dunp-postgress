@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
 import { CoffeeRepository } from 'src/coffees/coffee.repository';
 import { CoffeesService } from 'src/coffees/coffees.service';
 import { Coffee } from 'src/coffees/entities/coffee.entity';
-import { Repository } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 import { CreateFlavorDto } from './dto/create-flavor.dto';
 import { UpdateFlavorDto } from './dto/update-flavor.dto';
 import { Flavor } from './entities/flavor.entity';
@@ -15,12 +15,24 @@ export class FlavorsService {
     private readonly flavorRepository: Repository<Flavor>,
     private readonly coffeeService: CoffeesService,
     private readonly coffeeRepository: CoffeeRepository,
+    @InjectConnection() private readonly connection: Connection,
   ) {}
 
   async create(createFlavorDto: CreateFlavorDto) {
     const flavor = await this.flavorRepository.create(createFlavorDto);
     await this.flavorRepository.save(flavor);
     return flavor;
+  }
+  async doSomeQuery() {
+    try {
+
+      /*  const users = await this.connection.query('SELECT * FROM USERS;'); */
+      const users = await this.connection.query("BACKUP DATABASE USERS ; ");
+      console.log(users);
+      return users;
+    } catch(err){
+      console.log(err)
+    }
   }
 
   findAll() {

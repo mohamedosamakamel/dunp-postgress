@@ -12,6 +12,11 @@ export class FlavorsController {
     return this.flavorsService.create(createFlavorDto);
   }
 
+  @Get("/sql")
+  testing() {
+    return this.flavorsService.doSomeQuery();
+  }
+
   @Get()
   findAll() {
     return this.flavorsService.findAll();

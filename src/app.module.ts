@@ -7,25 +7,26 @@ import { CoffeesModule } from './coffees/coffees.module';
 import { ExcludeNullInterceptor } from './utils/excludeNull.interceptor';
 import { FlavorsModule } from './flavors/flavors.module';
 import { AllExceptionsFilter } from './utils/exception.filter';
-import { CoffeeRepository } from './coffees/coffee.repository';
-import { Coffee } from './coffees/entities/coffee.entity';
-import { PostsModule } from './posts/posts.module';
+import { ConfigModule } from '@nestjs/config';
+import { BuckupModule } from './buckup/buckup.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'tyke.db.elephantsql.com',
+  /*   TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
       port: 5432,
-      username: 'uwmwpfvc',
-      password: 'Wutx70Y3KstyqCB9Cm1HKg-olDGLXD_K',
-      database: 'uwmwpfvc',
+      username: 'mohamed',
+      password: '11112222',
+      database: 'test',
       autoLoadEntities: true,
       // synchronize: true,
-    }),
-    CoffeesModule,
+    }), */
+   /*  CoffeesModule,
     FlavorsModule,
-    PostsModule,
+    PostsModule, */
+    BuckupModule,
+    ConfigModule.forRoot()
   ],
   controllers: [AppController],
   providers: [
